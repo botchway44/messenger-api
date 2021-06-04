@@ -39,7 +39,10 @@ app.handle('AddTaskIntent', (conv) => {
     conv.overwrite = false;
     conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
     conv.add('Hello world from Add tasks');
-
+    conv.add(new Image({
+        url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
+        alt: 'A cat',
+    }));
     console.log(conv);
 });
 
