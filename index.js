@@ -34,8 +34,8 @@ app.handle('start_scene_initial_prompt', (conv) => {
     console.log(conv);
 });
 
-app.handle('add_tasks_prompt', (conv) => {
-    console.log('Start scene: initial prompt');
+app.handle('AddTaskIntent', (conv) => {
+    console.log('Add tasks scene:  prompt');
     conv.overwrite = false;
     conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
     conv.add('Hello world from Add tasks');
