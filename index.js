@@ -30,7 +30,19 @@ app.handle('start_scene_initial_prompt', (conv) => {
     conv.overwrite = false;
     conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
     conv.add('Hello world from fulfillment handler');
+
+    console.log(conv);
 });
+
+app.handle('add_tasks_prompt', (conv) => {
+    console.log('Start scene: initial prompt');
+    conv.overwrite = false;
+    conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
+    conv.add('Hello world from Add tasks');
+
+    console.log(conv);
+});
+
 
 // Add a get Response for the assistant
 expressApp.get('/', (req, res) => {
