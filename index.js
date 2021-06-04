@@ -10,19 +10,25 @@ const bodyParser = require('body-parser');
 const app = conversation();
 
 // Register handlers for Actions SDK
-
-app.handle('AddTaskIntent', conv => {
-    conv.add('Hi, how is it going?');
-    conv.add(new Image({
-        url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
-        alt: 'A cat',
-    }));
-});
-
+const expressApp = express().use(bodyParser.json());
 
 // ... app code here
+// app.handle('AddTaskIntent', conv => {
+//     conv.add('Hi, how is it going?');
+//     conv.add(new Image({
+//         url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
+//         alt: 'A cat',
+//     }));
+// });
 
-const expressApp = express().use(bodyParser.json());
+
+app.handle('start_scene_initial_prompt', (conv) => {
+    console.log('Start scene: initial prompt');
+    conv.overwrite = false;
+    conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
+    conv.add('Hello world from fulfillment');
+});
+
 
 expressApp.post('/fulfillment', app);
 
