@@ -3,6 +3,8 @@ const {
     conversation,
     Image,
 } = require('@assistant/conversation');
+const express = require('express');
+const bodyParser = require('body-parser');
 
 // Create an app instance
 const app = conversation();
@@ -15,4 +17,16 @@ app.handle('AddTaskIntent', conv => {
         url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
         alt: 'A cat',
     }));
+});
+
+
+// ... app code here
+
+const expressApp = express().use(bodyParser.json());
+
+expressApp.post('/fulfillment', app);
+
+const PORT = process.env.PORT || 3000;
+expressApp.listen(PORT, () => {
+    console.log("App is running on port " + PORT);
 });
