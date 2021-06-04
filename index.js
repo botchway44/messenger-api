@@ -5,9 +5,12 @@ const {
 } = require('@assistant/conversation');
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require("path");
 
 // Create an app instance
 const app = conversation();
+
+
 
 // Register handlers for Actions SDK
 const expressApp = express().use(bodyParser.json());
@@ -26,12 +29,18 @@ app.handle('start_scene_initial_prompt', (conv) => {
     console.log('Start scene: initial prompt');
     conv.overwrite = false;
     conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
-    conv.add('Hello world from fulfillment');
+    conv.add('Hello world from fulfillment handler');
 });
 
+// Add a get Response for the assistant
+expressApp.get('/', (req, res) => {
+    res.status(200).json({ message: "This is the google assistant" });
+});
 
+// Post the fulfillment handler for the Google Assistant
 expressApp.post('/fulfillment', app);
 
+// Starting the App
 const PORT = process.env.PORT || 3000;
 expressApp.listen(PORT, () => {
     console.log("App is running on port " + PORT);
