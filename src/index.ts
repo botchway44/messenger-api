@@ -1,8 +1,5 @@
 // Import the appropriate service and chosen wrappers
-const {
-    conversation,
-    Image,
-} = require('@assistant/conversation');
+import { conversation, Image } from '@assistant/conversation';
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require("path");
@@ -25,30 +22,35 @@ const expressApp = express().use(bodyParser.json());
 // });
 
 
+// Place scenename here
 app.handle('start_scene_initial_prompt', (conv) => {
     console.log('Start scene: initial prompt');
     conv.overwrite = false;
-    conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
+    // conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
     conv.add('Hello world from fulfillment handler');
 
     console.log(conv);
 });
 
+// use intent handler name here
 app.handle('AddTaskIntent', (conv) => {
     console.log('Add tasks scene:  prompt');
     conv.overwrite = false;
-    conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
+
+    // conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
     conv.add('Hello world from Add tasks');
     conv.add(new Image({
         url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
         alt: 'A cat',
     }));
     console.log(conv);
+
+    conv
 });
 
 
 // Add a get Response for the assistant
-expressApp.get('/', (req, res) => {
+expressApp.get('/', (req: any, res: any) => {
     res.status(200).json({ message: "This is the google assistant" });
 });
 
