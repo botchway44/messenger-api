@@ -1,0 +1,567 @@
+Request {
+    "handler": {
+        "name": "AddTaskIntent"
+    },
+    "intent": {
+        "name": "YesIntent",
+        "params": {},
+        "query": "Yes"
+    },
+    "scene": {
+        "name": "AddTasks",
+        "slotFillingStatus": "FINAL",
+        "slots": {
+            "description": {
+                "mode": "REQUIRED",
+                "status": "SLOT_UNSPECIFIED",
+                "updated": false,
+                "value": "wasong"
+            },
+            "due": {
+                "mode": "REQUIRED",
+                "status": "SLOT_UNSPECIFIED",
+                "value": {
+                    "month": 6,
+                    "year": 2021,
+                    "day": 11
+                },
+                "updated": false
+            },
+            "name": {
+                "mode": "REQUIRED",
+                "status": "SLOT_UNSPECIFIED",
+                "updated": false,
+                "value": "cleaning"
+            }
+        },
+        "next": {
+            "name": "Main_Interaction"
+        }
+    },
+    "session": {
+        "id": "ABwppHG0SIyrfJCnnoYJyb0UvJub4N3pbufyxXODejs73gQqCpI_NZ0O5UIT3ttJeGVusCjHC1J0YbbB0JJ_vO9ltw",
+        "params": {
+            "AccountLinkingSlot": "LINKED",
+            "description": "wasong",
+            "due": {
+                "year": 2021,
+                "day": 11,
+                "month": 6
+            },
+            "name": "cleaning"
+        },
+        "typeOverrides": [],
+        "languageCode": ""
+    },
+    "user": {
+        "locale": "en-US",
+        "params": {},
+        "accountLinkingStatus": "LINKED",
+        "verificationStatus": "VERIFIED",
+        "packageEntitlements": [],
+        "gaiamint": "",
+        "permissions": [],
+        "lastSeenTime": "2021-06-06T08:18:02Z"
+    },
+    "home": {
+        "params": {}
+    },
+    "device": {
+        "capabilities": [
+            "SPEECH",
+            "RICH_RESPONSE",
+            "LONG_FORM_AUDIO"
+        ],
+        "timeZone": {
+            "id": "UTC",
+            "version": ""
+        }
+    }
+}
+  Headers {
+    "x-forwarded-host": "tiny-frog-24.loca.lt",
+    "x-forwarded-port": "80",
+    "accept-encoding": "gzip, deflate, br",
+    "user-agent": "Google-ActionsOnGoogle/1.0",
+    "authorization": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3MTllYjk1N2Y2OTU2YjU4MThjMTk2OGZmMTZkZmY3NzRlNzA4ZGUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJuYmYiOjE2MjI5NjcxOTQsImF1ZCI6IjcyODc3MDk1NjAzNS00a3V2Z20yMnA2dW5wNGNncmJldWU1cWNrMzN1OTh2ZS5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExNjY1NDQwMDQzMjU0MTczMTk4MyIsImhkIjoibXVjZy5lZHUuZ2giLCJlbWFpbCI6ImFib3R3ZUBtdWNnLmVkdS5naCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiQU5HRUxBIEFSQU1BSCBCT1RXRSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQVRYQUp5WVFwMGR0cTJzZHczLUtHWnAyWGd5ODJnYkRlbjZNM0ZKWjM3dD1zOTYtYyIsImdpdmVuX25hbWUiOiJBTkdFTEEgQVJBTUFIXHQiLCJmYW1pbHlfbmFtZSI6IkJPVFdFIiwiaWF0IjoxNjIyOTY3NDk0LCJleHAiOjE2MjI5NzEwOTQsImp0aSI6IjVlYjlmNWFjYWFkZTZjNGNmMTMxNWNlNjg5NWUyMTVjM2RlNjIxNDQifQ.Se3cVpwH9-NaiXjF40VPDFBJVfVmWKcKW6TYIJDuTT-R60Qqa5wfhnWMvNDgvzXAIYPriFFu29ujt7j7CGQDj1GEYQdco9i0o0skICGsk_FVOwq3f07R6QYe_Ytf2YOXcVLjVJYD4dIZjeF66k2SR0oh1sjZHkYMwUQnIf7UgDjwPU2w3hWEohLKtFgHKCgF_SqBUcvWE2v10XtbgLFZ5_7jfrsrY8MUev3kpX_BT3uDCgbaKp7Z0rET535nrIaGk-URPb4Un0e2SZhzo6FUri_MX775rp_iIlvvXxeJcyNzlJTjZlsgT46TKnhJgIx5KQe3T0jR3ASW3I3kvU1AdA",
+    "google-assistant-signature": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3MTllYjk1N2Y2OTU2YjU4MThjMTk2OGZmMTZkZmY3NzRlNzA4ZGUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhdWQiOiJ0YXNrcy1tYW5hZ2VyLWI1M2ZmIiwibmJmIjoxNjIyOTY3MTk0LCJpYXQiOjE2MjI5Njc0OTQsImV4cCI6MTYyMjk2NzYxNCwianRpIjoiYWQ3NzhmMjllMTMyMzExY2Y4NmU2YzY3NmI1NjY4MjZkNDMwNTM0ZCJ9.mJ69dOsOBZXcVNbWqYv-BDdxnDcjkXNZwpvF4gyRusQqJaakB6n0st6UGBh6XtBOqGntq88Nzwb0Lp6z-Age-_OTVp24iF-tjVu4IyPSbWojH-6lBIwXL6ip371-24SYcLBf5VcMn8okN8tgwPuKP8tDN4pXXGi_OPTUVvVcD7lv7USurD9J6WHpDv5snnfdmdoYrnyGPI_sFX3EqErLzYONGyrrGU-bcX7WQQpmjx6sEqCI83l_59WKXv3G8vty7gKXT-Rxhg5ci2cpxxmvRpSGZ4LS7c5Cl24RhHGmf9WtgV-LNVZ4-YBN6qIpR6fweHE7SN50c8ULd6qcjtGT6Q",
+    "google-actions-api-version": "3",
+    "content-type": "application/json;charset=UTF-8",
+    "content-length": "1082",
+    "connection": "close",
+    "x-nginx-proxy": "true",
+    "x-forwarded-proto": "https,http",
+    "host": "tiny-frog-24.loca.lt",
+    "x-forwarded-for": "66.249.83.9,::ffff:10.42.154.6",
+    "x-real-ip": "66.249.83.9"
+}
+  ConversationV3 {
+    "overwrite": true,
+    "digested": false,
+    "request": "[Excluded]",
+    "headers": "[Excluded]",
+    "handler": {
+        "name": "AddTaskIntent"
+    },
+    "intent": {
+        "name": "YesIntent",
+        "query": "Yes",
+        "params": {}
+    },
+    "scene": {
+        "name": "AddTasks",
+        "slotFillingStatus": "FINAL",
+        "slots": {
+            "description": {
+                "mode": "REQUIRED",
+                "status": "SLOT_UNSPECIFIED",
+                "updated": false,
+                "value": "wasong"
+            },
+            "due": {
+                "mode": "REQUIRED",
+                "status": "SLOT_UNSPECIFIED",
+                "value": {
+                    "month": 6,
+                    "year": 2021,
+                    "day": 11
+                },
+                "updated": false
+            },
+            "name": {
+                "mode": "REQUIRED",
+                "status": "SLOT_UNSPECIFIED",
+                "updated": false,
+                "value": "cleaning"
+            }
+        },
+        "next": {
+            "name": "Main_Interaction"
+        }
+    },
+    "session": {
+        "id": "ABwppHG0SIyrfJCnnoYJyb0UvJub4N3pbufyxXODejs73gQqCpI_NZ0O5UIT3ttJeGVusCjHC1J0YbbB0JJ_vO9ltw",
+        "params": {
+            "AccountLinkingSlot": "LINKED",
+            "description": "wasong",
+            "due": {
+                "year": 2021,
+                "day": 11,
+                "month": 6
+            },
+            "name": "cleaning"
+        },
+        "typeOverrides": [],
+        "languageCode": ""
+    },
+    "user": {
+        "locale": "en-US",
+        "params": {
+            "bearerToken": ""
+        },
+        "accountLinkingStatus": "LINKED",
+        "verificationStatus": "VERIFIED",
+        "packageEntitlements": [],
+        "gaiamint": "",
+        "permissions": [],
+        "lastSeenTime": "2021-06-06T08:18:02Z"
+    },
+    "device": {
+        "capabilities": [
+            "SPEECH",
+            "RICH_RESPONSE",
+            "LONG_FORM_AUDIO"
+        ],
+        "currentLocation": {},
+        "timeZone": {
+            "id": "UTC",
+            "version": ""
+        }
+    },
+    "home": {
+        "params": {}
+    },
+    "expected": {},
+    "context": {},
+    "prompt": {
+        "override": false
+    },
+    "_internal": {
+        "promptSet": false,
+        "orig": {
+            "scene": {
+                "name": "AddTasks",
+                "slotFillingStatus": "FINAL",
+                "slots": {
+                    "description": {
+                        "mode": "REQUIRED",
+                        "status": "SLOT_UNSPECIFIED",
+                        "updated": false,
+                        "value": "wasong"
+                    },
+                    "due": {
+                        "mode": "REQUIRED",
+                        "status": "SLOT_UNSPECIFIED",
+                        "value": {
+                            "month": 6,
+                            "year": 2021,
+                            "day": 11
+                        },
+                        "updated": false
+                    },
+                    "name": {
+                        "mode": "REQUIRED",
+                        "status": "SLOT_UNSPECIFIED",
+                        "updated": false,
+                        "value": "cleaning"
+                    }
+                },
+                "next": {
+                    "name": "Main_Interaction"
+                }
+            },
+            "session": {
+                "id": "ABwppHG0SIyrfJCnnoYJyb0UvJub4N3pbufyxXODejs73gQqCpI_NZ0O5UIT3ttJeGVusCjHC1J0YbbB0JJ_vO9ltw",
+                "params": {
+                    "AccountLinkingSlot": "LINKED",
+                    "description": "wasong",
+                    "due": {
+                        "year": 2021,
+                        "day": 11,
+                        "month": 6
+                    },
+                    "name": "cleaning"
+                },
+                "typeOverrides": [],
+                "languageCode": ""
+            },
+            "user": {
+                "locale": "en-US",
+                "params": {},
+                "accountLinkingStatus": "LINKED",
+                "verificationStatus": "VERIFIED",
+                "packageEntitlements": [],
+                "gaiamint": "",
+                "permissions": [],
+                "lastSeenTime": "2021-06-06T08:18:02Z"
+            },
+            "home": {
+                "params": {}
+            }
+        }
+    }
+}
+  {
+    "overwrite": true,
+    "digested": false,
+    "request": {
+        "handler": {
+            "name": "AddTaskIntent"
+        },
+        "intent": {
+            "name": "YesIntent",
+            "params": {},
+            "query": "Yes"
+        },
+        "scene": {
+            "name": "AddTasks",
+            "slotFillingStatus": "FINAL",
+            "slots": {
+                "description": {
+                    "mode": "REQUIRED",
+                    "status": "SLOT_UNSPECIFIED",
+                    "updated": false,
+                    "value": "wasong"
+                },
+                "due": {
+                    "mode": "REQUIRED",
+                    "status": "SLOT_UNSPECIFIED",
+                    "value": {
+                        "month": 6,
+                        "year": 2021,
+                        "day": 11
+                    },
+                    "updated": false
+                },
+                "name": {
+                    "mode": "REQUIRED",
+                    "status": "SLOT_UNSPECIFIED",
+                    "updated": false,
+                    "value": "cleaning"
+                }
+            },
+            "next": {
+                "name": "Main_Interaction"
+            }
+        },
+        "session": {
+            "id": "ABwppHG0SIyrfJCnnoYJyb0UvJub4N3pbufyxXODejs73gQqCpI_NZ0O5UIT3ttJeGVusCjHC1J0YbbB0JJ_vO9ltw",
+            "params": {
+                "AccountLinkingSlot": "LINKED",
+                "description": "wasong",
+                "due": {
+                    "year": 2021,
+                    "day": 11,
+                    "month": 6
+                },
+                "name": "cleaning"
+            },
+            "typeOverrides": [],
+            "languageCode": ""
+        },
+        "user": {
+            "locale": "en-US",
+            "params": {
+                "bearerToken": ""
+            },
+            "accountLinkingStatus": "LINKED",
+            "verificationStatus": "VERIFIED",
+            "packageEntitlements": [],
+            "gaiamint": "",
+            "permissions": [],
+            "lastSeenTime": "2021-06-06T08:18:02Z"
+        },
+        "home": {
+            "params": {}
+        },
+        "device": {
+            "capabilities": [
+                "SPEECH",
+                "RICH_RESPONSE",
+                "LONG_FORM_AUDIO"
+            ],
+            "timeZone": {
+                "id": "UTC",
+                "version": ""
+            }
+        }
+    },
+    "headers": {
+        "x-forwarded-host": "tiny-frog-24.loca.lt",
+        "x-forwarded-port": "80",
+        "accept-encoding": "gzip, deflate, br",
+        "user-agent": "Google-ActionsOnGoogle/1.0",
+        "authorization": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3MTllYjk1N2Y2OTU2YjU4MThjMTk2OGZmMTZkZmY3NzRlNzA4ZGUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJuYmYiOjE2MjI5NjcxOTQsImF1ZCI6IjcyODc3MDk1NjAzNS00a3V2Z20yMnA2dW5wNGNncmJldWU1cWNrMzN1OTh2ZS5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExNjY1NDQwMDQzMjU0MTczMTk4MyIsImhkIjoibXVjZy5lZHUuZ2giLCJlbWFpbCI6ImFib3R3ZUBtdWNnLmVkdS5naCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiQU5HRUxBIEFSQU1BSCBCT1RXRSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQVRYQUp5WVFwMGR0cTJzZHczLUtHWnAyWGd5ODJnYkRlbjZNM0ZKWjM3dD1zOTYtYyIsImdpdmVuX25hbWUiOiJBTkdFTEEgQVJBTUFIXHQiLCJmYW1pbHlfbmFtZSI6IkJPVFdFIiwiaWF0IjoxNjIyOTY3NDk0LCJleHAiOjE2MjI5NzEwOTQsImp0aSI6IjVlYjlmNWFjYWFkZTZjNGNmMTMxNWNlNjg5NWUyMTVjM2RlNjIxNDQifQ.Se3cVpwH9-NaiXjF40VPDFBJVfVmWKcKW6TYIJDuTT-R60Qqa5wfhnWMvNDgvzXAIYPriFFu29ujt7j7CGQDj1GEYQdco9i0o0skICGsk_FVOwq3f07R6QYe_Ytf2YOXcVLjVJYD4dIZjeF66k2SR0oh1sjZHkYMwUQnIf7UgDjwPU2w3hWEohLKtFgHKCgF_SqBUcvWE2v10XtbgLFZ5_7jfrsrY8MUev3kpX_BT3uDCgbaKp7Z0rET535nrIaGk-URPb4Un0e2SZhzo6FUri_MX775rp_iIlvvXxeJcyNzlJTjZlsgT46TKnhJgIx5KQe3T0jR3ASW3I3kvU1AdA",
+        "google-assistant-signature": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3MTllYjk1N2Y2OTU2YjU4MThjMTk2OGZmMTZkZmY3NzRlNzA4ZGUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhdWQiOiJ0YXNrcy1tYW5hZ2VyLWI1M2ZmIiwibmJmIjoxNjIyOTY3MTk0LCJpYXQiOjE2MjI5Njc0OTQsImV4cCI6MTYyMjk2NzYxNCwianRpIjoiYWQ3NzhmMjllMTMyMzExY2Y4NmU2YzY3NmI1NjY4MjZkNDMwNTM0ZCJ9.mJ69dOsOBZXcVNbWqYv-BDdxnDcjkXNZwpvF4gyRusQqJaakB6n0st6UGBh6XtBOqGntq88Nzwb0Lp6z-Age-_OTVp24iF-tjVu4IyPSbWojH-6lBIwXL6ip371-24SYcLBf5VcMn8okN8tgwPuKP8tDN4pXXGi_OPTUVvVcD7lv7USurD9J6WHpDv5snnfdmdoYrnyGPI_sFX3EqErLzYONGyrrGU-bcX7WQQpmjx6sEqCI83l_59WKXv3G8vty7gKXT-Rxhg5ci2cpxxmvRpSGZ4LS7c5Cl24RhHGmf9WtgV-LNVZ4-YBN6qIpR6fweHE7SN50c8ULd6qcjtGT6Q",
+        "google-actions-api-version": "3",
+        "content-type": "application/json;charset=UTF-8",
+        "content-length": "1082",
+        "connection": "close",
+        "x-nginx-proxy": "true",
+        "x-forwarded-proto": "https,http",
+        "host": "tiny-frog-24.loca.lt",
+        "x-forwarded-for": "66.249.83.9,::ffff:10.42.154.6",
+        "x-real-ip": "66.249.83.9"
+    },
+    "handler": {
+        "name": "AddTaskIntent"
+    },
+    "intent": {
+        "name": "YesIntent",
+        "query": "Yes",
+        "params": {}
+    },
+    "scene": {
+        "name": "AddTasks",
+        "slotFillingStatus": "FINAL",
+        "slots": {
+            "description": {
+                "mode": "REQUIRED",
+                "status": "SLOT_UNSPECIFIED",
+                "updated": false,
+                "value": "wasong"
+            },
+            "due": {
+                "mode": "REQUIRED",
+                "status": "SLOT_UNSPECIFIED",
+                "value": {
+                    "month": 6,
+                    "year": 2021,
+                    "day": 11
+                },
+                "updated": false
+            },
+            "name": {
+                "mode": "REQUIRED",
+                "status": "SLOT_UNSPECIFIED",
+                "updated": false,
+                "value": "cleaning"
+            }
+        },
+        "next": {
+            "name": "Main_Interaction"
+        }
+    },
+    "session": {
+        "id": "ABwppHG0SIyrfJCnnoYJyb0UvJub4N3pbufyxXODejs73gQqCpI_NZ0O5UIT3ttJeGVusCjHC1J0YbbB0JJ_vO9ltw",
+        "params": {
+            "AccountLinkingSlot": "LINKED",
+            "description": "wasong",
+            "due": {
+                "year": 2021,
+                "day": 11,
+                "month": 6
+            },
+            "name": "cleaning"
+        },
+        "typeOverrides": [],
+        "languageCode": ""
+    },
+    "user": {
+        "locale": "en-US",
+        "params": {
+            "bearerToken": ""
+        },
+        "accountLinkingStatus": "LINKED",
+        "verificationStatus": "VERIFIED",
+        "packageEntitlements": [],
+        "gaiamint": "",
+        "permissions": [],
+        "lastSeenTime": "2021-06-06T08:18:02Z"
+    },
+    "device": {
+        "capabilities": [
+            "SPEECH",
+            "RICH_RESPONSE",
+            "LONG_FORM_AUDIO"
+        ],
+        "currentLocation": {},
+        "timeZone": {
+            "id": "UTC",
+            "version": ""
+        }
+    },
+    "home": {
+        "params": {}
+    },
+    "expected": {},
+    "context": {},
+    "prompt": {
+        "override": false,
+        "firstSimple": {
+            "speech": "Task create succesfully, i will send you email updates when the task is almost due",
+            "text": ""
+        },
+        "content": {
+            "image": {
+                "alt": "A cat",
+                "height": 0,
+                "url": "https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg",
+                "width": 0
+            }
+        }
+    },
+    "_internal": {
+        "promptSet": true,
+        "orig": {
+            "scene": {
+                "name": "AddTasks",
+                "slotFillingStatus": "FINAL",
+                "slots": {
+                    "description": {
+                        "mode": "REQUIRED",
+                        "status": "SLOT_UNSPECIFIED",
+                        "updated": false,
+                        "value": "wasong"
+                    },
+                    "due": {
+                        "mode": "REQUIRED",
+                        "status": "SLOT_UNSPECIFIED",
+                        "value": {
+                            "month": 6,
+                            "year": 2021,
+                            "day": 11
+                        },
+                        "updated": false
+                    },
+                    "name": {
+                        "mode": "REQUIRED",
+                        "status": "SLOT_UNSPECIFIED",
+                        "updated": false,
+                        "value": "cleaning"
+                    }
+                },
+                "next": {
+                    "name": "Main_Interaction"
+                }
+            },
+            "session": {
+                "id": "ABwppHG0SIyrfJCnnoYJyb0UvJub4N3pbufyxXODejs73gQqCpI_NZ0O5UIT3ttJeGVusCjHC1J0YbbB0JJ_vO9ltw",
+                "params": {
+                    "AccountLinkingSlot": "LINKED",
+                    "description": "wasong",
+                    "due": {
+                        "year": 2021,
+                        "day": 11,
+                        "month": 6
+                    },
+                    "name": "cleaning"
+                },
+                "typeOverrides": [],
+                "languageCode": ""
+            },
+            "user": {
+                "locale": "en-US",
+                "params": {},
+                "accountLinkingStatus": "LINKED",
+                "verificationStatus": "VERIFIED",
+                "packageEntitlements": [],
+                "gaiamint": "",
+                "permissions": [],
+                "lastSeenTime": "2021-06-06T08:18:02Z"
+            },
+            "home": {
+                "params": {}
+            }
+        }
+    }
+}  
+  Response {
+    "status": 200,
+    "headers": {
+        "content-type": "application/json;charset=utf-8"
+    },
+    "body": {
+        "session": {
+            "id": "ABwppHG0SIyrfJCnnoYJyb0UvJub4N3pbufyxXODejs73gQqCpI_NZ0O5UIT3ttJeGVusCjHC1J0YbbB0JJ_vO9ltw",
+            "params": {
+                "AccountLinkingSlot": "LINKED",
+                "description": "wasong",
+                "due": {
+                    "year": 2021,
+                    "day": 11,
+                    "month": 6
+                },
+                "name": "cleaning"
+            },
+            "languageCode": ""
+        },
+        "prompt": {
+            "override": false,
+            "content": {
+                "image": {
+                    "alt": "A cat",
+                    "height": 0,
+                    "url": "https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg",
+                    "width": 0
+                }
+            },
+            "firstSimple": {
+                "speech": "Task create succesfully, i will send you email updates when the task is almost due",
+                "text": ""
+            }
+        },
+        "user": {
+            "locale": "en-US",
+            "params": {
+                "bearerToken": ""
+            },
+            "accountLinkingStatus": "LINKED",
+            "verificationStatus": "VERIFIED",
+            "packageEntitlements": [],
+            "gaiamint": "",
+            "permissions": [],
+            "lastSeenTime": "2021-06-06T08:18:02Z"
+        }
+    }
+}

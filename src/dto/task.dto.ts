@@ -8,12 +8,13 @@ export interface ITask {
     name: string
     description?: string
     status?: TaskState
-    due: string
-    time: string
+    due: string | any
+    time?: string
+    email: string
 }
 
 export class NewTask implements ITask {
-    constructor(public name: string, public due: string, public time: string) {
+    constructor(public name: string, public due: any, public description: string, public email: string) {
         const uuid = uuidv4();
         this.id = uuid;
 

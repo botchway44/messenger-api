@@ -1,0 +1,16 @@
+{
+    "iss": "https://accounts.google.com",
+    "nbf": 1622970259,
+    "aud": "728770956035-4kuvgm22p6unp4cgrbeue5qck33u98ve.apps.googleusercontent.com",
+    "sub": "116654400432541731983",
+    "hd": "mucg.edu.gh",
+    "email": "abotwe@mucg.edu.gh",
+    "email_verified": true,
+    "name": "ANGELA ARAMAH BOTWE",
+    "picture": "https://lh3.googleusercontent.com/a/AATXAJyYQp0dtq2sdw3-KGZp2Xgy82gbDen6M3FJZ37t=s96-c",
+    "given_name": "ANGELA ARAMAH\t",
+    "family_name": "BOTWE",
+    "iat": 1622970559,
+    "exp": 1622974159,
+    "jti": "0500a581b9bdc6adff8b7b23c03a787206e1c1be"
+}

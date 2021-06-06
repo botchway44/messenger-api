@@ -2,11 +2,11 @@
   "name": "google-assistant-custom-webhook",
   "version": "1.0.0",
   "description": "Task manager webhook assistant",
-  "main": "index.js",
+  "main": "src/app.ts",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node dist/app.js",
     "build": "tsc",
-    "start:test": "nodemon src/app.ts",
+    "start:dev": "nodemon",
     "test": "mocha -r ts-node/register test/**.spec.ts"
   },
   "author": "",
@@ -14,8 +14,9 @@
   "dependencies": {
     "@assistant/conversation": "^3.7.1",
     "body-parser": "^1.19.0",
-    "express": "^4.17.1",
     "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jwt-decode": "^3.1.2",
     "mongodb": "^3.1.12",
     "uuid": "^8.3.0"
   },

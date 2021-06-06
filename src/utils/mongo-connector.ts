@@ -1,5 +1,5 @@
 import { Collection } from "mongodb";
-import { ITask } from "src/dto";
+import { ITask } from "../dto";
 
 const MongoClient = require('mongodb');
 const ObjectID = require('mongodb').ObjectID;
@@ -55,11 +55,11 @@ export class MongoClientConnection {
         return await this.tasks_collection.updateOne({ id: task.id }, task);
     }
 
-    getAllTasks() {
-        return this.tasks_collection.find().toArray();
+    getAllTasks(email: string) {
+        return this.tasks_collection.find({ email: email }).toArray();
     }
 
-    find(task: ITask) {
+    find(email: string) {
         return this.tasks_collection.find().toArray();
     }
 
