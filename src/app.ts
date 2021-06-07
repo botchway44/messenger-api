@@ -61,7 +61,7 @@ app.handle('task_selected', async (conv) => {
 
     } else {
         conv.add("Task could not be found")
-
+        conv.add(new Suggestion({ title: 'Add new Task' }))
     }
 
 
@@ -117,6 +117,7 @@ app.handle('all_tasks_scene', async (conv) => {
     } else {
         conv.scene.next = { name: 'Empty_TaskList' };
         conv.add("You do not have any task added");
+        conv.add(new Suggestion({ title: 'Add new Task' }))
     }
 });
 
