@@ -21,7 +21,7 @@ export class MongoClientConnection {
 
     connect() {
 
-        console.log(this.mongo_url)
+        console.log("Connecting to Databse ... ")
         return new Promise((resolve, reject) => {
             MongoClient.connect(this.mongo_url, { useUnifiedTopology: true }, async (
                 err: any,
@@ -63,8 +63,8 @@ export class MongoClientConnection {
         return this.tasks_collection.find().toArray();
     }
 
-    getTask(id: string) {
-        return this.tasks_collection.findOne({ _id: ObjectID(id) });
+    getTask(id: string, email: string) {
+        return this.tasks_collection.findOne({ id: id, email: email });
     }
 
 

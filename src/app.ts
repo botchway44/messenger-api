@@ -1,7 +1,8 @@
 // Import the appropriate service and chosen wrappers
-import { conversation, Image, List, Simple, Suggestion } from '@assistant/conversation';
+import { Card, conversation, Image, List, Simple, Suggestion } from '@assistant/conversation';
 import { Mode } from '@assistant/conversation/dist/api/schema';
 import { AuthHeaderProcessor } from '@assistant/conversation/dist/auth';
+import { ITask } from './dto';
 import { ASSISTANT_LOGO_IMAGE, buildEntriesList, buildItemsList, decodeUser, handleAddTasks, MongoClientConnection } from './utils';
 import { CreateNewTask } from './utils';
 
@@ -12,7 +13,7 @@ const fs = require('fs')
 
 // Create an app instance
 const app = conversation({
-    debug: true,
+    // debug: true,
 
 });
 let mongoClient: MongoClientConnection;
@@ -30,6 +31,41 @@ app.handle('start_scene_initial_prompt', (conv) => {
 
 });
 
+
+// use scene handler handler name here
+app.handle('task_selected', async (conv) => {
+
+    console.log("selected task, called")
+    const authHeader = conv.headers.authorization?.toString() || "";
+
+    const user = decodeUser(authHeader);
+
+    const id = conv.session.params?.selectedTask;
+
+    console.log("id is ", id, " USer email is ", user?.email);
+    // get all tasks and create a list
+    const task: ITask = await mongoClient.getTask(id, user?.email || "");
+
+    console.log(task);
+
+    if (task) {
+        conv.add(new Card({
+            title: task.name,
+            text: task.description,
+            subtitle: task.status + " " + task.due
+        }));
+
+        conv.scene.next = { name: 'Task_Detail' };
+        conv.add(new Suggestion({ title: 'Change Status' }))
+        conv.add(new Suggestion({ title: 'Delete Task' }))
+
+    } else {
+        conv.add("Task could not be found")
+
+    }
+
+
+});
 // use scene handler handler name here
 app.handle('all_tasks_scene', async (conv) => {
 
@@ -39,34 +75,49 @@ app.handle('all_tasks_scene', async (conv) => {
     const user = decodeUser(authHeader);
 
     // get all tasks and create a list
-    const tasks = await mongoClient.getAllTasks((user?.email || ""));
-    console.log(tasks);
-    // if (tasks.length > 0) {
+    const tasks: ITask[] = await mongoClient.getAllTasks((user?.email || ""));
 
-    //     // Create a list of tasks
-    //     conv.add(new List())
-    // }
+    if (tasks.length >= 2) {
 
-    conv.add("Here are a list of your tasks, you can delete or edit them")
+        // Create a list of tasks
+        conv.add("Here are a list of your tasks, you can delete or edit them")
 
-    const entries = buildEntriesList(tasks);
-    // Override type based on slot 'prompt_option'
-    conv.session.typeOverrides = [
-        {
-            name: 'prompt_option',
-            mode: Mode.TypeReplace,
-            synonym: {
-                entries: entries
-            }
-        }];
+        const entries = buildEntriesList(tasks);
+        // Override type based on slot 'prompt_option'
+        conv.session.typeOverrides = [
+            {
+                name: 'prompt_option',
+                mode: Mode.TypeReplace,
+                synonym: {
+                    entries: entries
+                }
+            }];
 
-    const items = buildItemsList(tasks);
-    // Define prompt content using keys
-    conv.add(new List({
-        title: 'Tasks',
-        subtitle: '',
-        items: items
-    }));
+        const items = buildItemsList(tasks);
+        // Define prompt content using keys
+        conv.add(new List({
+            title: 'Tasks',
+            subtitle: '',
+            items: items
+        }));
+
+    } else if (tasks.length == 1) {
+        conv.add("Here is your task")
+        conv.add(new Card({
+            title: tasks[0].name,
+            text: tasks[0].description,
+            subtitle: tasks[0].status + " " + tasks[0].due
+        }));
+
+        conv.scene.next = { name: 'Task_Detail' };
+        conv.add(new Suggestion({ title: 'Change Status' }))
+        conv.add(new Suggestion({ title: 'Delete Task' }))
+
+
+    } else {
+        conv.scene.next = { name: 'Empty_TaskList' };
+        conv.add("You do not have any task added");
+    }
 });
 
 
