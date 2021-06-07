@@ -1,7 +1,8 @@
 // Import the appropriate service and chosen wrappers
 import { conversation, Image, List, Simple, Suggestion } from '@assistant/conversation';
+import { Mode } from '@assistant/conversation/dist/api/schema';
 import { AuthHeaderProcessor } from '@assistant/conversation/dist/auth';
-import { decodeUser, handleAddTasks, MongoClientConnection } from './utils';
+import { ASSISTANT_LOGO_IMAGE, buildEntriesList, buildItemsList, decodeUser, handleAddTasks, MongoClientConnection } from './utils';
 import { CreateNewTask } from './utils';
 
 const express = require('express');
@@ -29,7 +30,7 @@ app.handle('start_scene_initial_prompt', (conv) => {
 
 });
 
-// use intent handler name here
+// use scene handler handler name here
 app.handle('all_tasks_scene', async (conv) => {
 
     console.log("all tasks scene, called")
@@ -39,32 +40,32 @@ app.handle('all_tasks_scene', async (conv) => {
 
     // get all tasks and create a list
     const tasks = await mongoClient.getAllTasks((user?.email || ""));
-
+    console.log(tasks);
     // if (tasks.length > 0) {
 
     //     // Create a list of tasks
     //     conv.add(new List())
     // }
 
-    conv.add("Here is a list")
+    conv.add("Here are a list of your tasks, you can delete or edit them")
 
-    conv.add(new List({
-        title: 'Here is a list of items',
-        subtitle: 'Below are the items list',
-        items: [
-            {
-                key: 'List item 1'
-            },
-            {
-                key: 'List item 2'
-            },
-            {
-                key: 'list item 3'
-            },
-            {
-                key: 'list item 4'
+    const entries = buildEntriesList(tasks);
+    // Override type based on slot 'prompt_option'
+    conv.session.typeOverrides = [
+        {
+            name: 'prompt_option',
+            mode: Mode.TypeReplace,
+            synonym: {
+                entries: entries
             }
-        ],
+        }];
+
+    const items = buildItemsList(tasks);
+    // Define prompt content using keys
+    conv.add(new List({
+        title: 'Tasks',
+        subtitle: '',
+        items: items
     }));
 });
 
@@ -105,26 +106,17 @@ app.handle('AddTaskIntent', async (conv) => {
         // insert into mongo
         await mongoClient.addTask(new_task).then(() => {
             conv.add(
-                new Simple(`Okay ${user.family_name}, your task is created`)
+                new Simple(`Okay ${user.family_name.toLowerCase()}, your task is created`)
             );
         });
+
         // send prompt message 
 
         // conv.scene.next = { name: 'AddTasks' };
+        conv.add(new Suggestion({ title: 'All Tasks' }))
+        conv.add(new Suggestion({ title: 'Add a task' }))
+
     }
-    // console.log(JSON.stringify(user))
-
-
-    // conv.add(
-    //     new Simple('Task create succesfully, i will send you email updates when the task is almost due')
-    // );
-
-    // conv.add(new Image({
-    //     url: 'https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/imgs/160204193356-01-cat-500.jpg',
-    //     alt: 'A cat',
-    // }));
-
-    // console.log(JSON.stringify(conv));
 
 });
 
