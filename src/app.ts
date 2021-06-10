@@ -6,7 +6,7 @@ import { ITask } from './dto';
 import { ASSISTANT_LOGO_IMAGE, buildEntriesList, buildItemsList, decodeUser, handleAddTasks, MongoClientConnection } from './utils';
 import { CreateNewTask } from './utils';
 
-const { actionssdk, SignIn } = require('actions-on-google');
+// const { actionssdk, SignIn } = require('actions-on-google');
 
 
 const express = require('express');
@@ -17,7 +17,7 @@ const fs = require('fs')
 // Create an app instance
 const app = conversation({
     // debug: true,
-
+    // clientId: '6eqg1P7X6IeHO7U9nOeAU6KOG6qYDwz0'
 });
 let mongoClient: MongoClientConnection;
 
@@ -34,6 +34,25 @@ app.handle('start_scene_initial_prompt', (conv) => {
 
 });
 
+// Place scenename here
+app.handle('user_account_linked', (conv) => {
+    console.log('Account Link Scene');
+    conv.overwrite = false;
+    console.log(conv.headers);
+    // conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
+    conv.add('Hello world from Account Linking');
+
+});
+
+
+// Place scenename here
+app.handle('check_account_details', (conv) => {
+    console.log('Checking account Link Scene');
+    conv.overwrite = false;
+    // conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
+    conv.add('Here is your account details');
+
+});
 
 // use scene handler handler name here
 app.handle('task_selected', async (conv) => {
