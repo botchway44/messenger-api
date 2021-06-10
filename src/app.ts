@@ -6,6 +6,9 @@ import { ITask } from './dto';
 import { ASSISTANT_LOGO_IMAGE, buildEntriesList, buildItemsList, decodeUser, handleAddTasks, MongoClientConnection } from './utils';
 import { CreateNewTask } from './utils';
 
+const { actionssdk, SignIn } = require('actions-on-google');
+
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require("path");
@@ -112,7 +115,6 @@ app.handle('all_tasks_scene', async (conv) => {
         conv.scene.next = { name: 'Task_Detail' };
         conv.add(new Suggestion({ title: 'Change Status' }))
         conv.add(new Suggestion({ title: 'Delete Task' }))
-
 
     } else {
         conv.scene.next = { name: 'Empty_TaskList' };

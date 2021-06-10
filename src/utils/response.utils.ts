@@ -15,9 +15,22 @@ import {
     MessageBuilder
 } from "../dto";
 
+/**
+ * Lex Runtime Message Type
+ * @param message 
+ * @param type 
+ * @returns 
+ */
 export const createMessage = (message: string, type: ResponseContentType): IMessage => new Message(message, type)
 
-
+/**
+ *  Lex Runtime Intent Type
+ * @param name 
+ * @param confirmationState 
+ * @param slots 
+ * @param state 
+ * @returns 
+ */
 export const createIntent = (
     name: string,
     confirmationState: ConfirmationState,
