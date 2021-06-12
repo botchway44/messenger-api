@@ -33,38 +33,3 @@ export class Account implements IAccount {
         public transactions: ITransaction[],
     ) { }
 }
-
-const FAKE_DATA: IAccount[] = [
-    {
-        balance: 2000,
-        email: 'noelnuel44@gmail.com',
-        transactions: [
-            {
-                date: "2021-05-31T15:31:17.820326Z",
-                type: "ATM CASH WITHDRAWAL SBG KNUST1",
-                amount: -200,
-                balance: 3000
-            },
-            {
-                date: "2021-05-31T15:31:17.820326Z",
-                type: "ATM CASH WITHDRAWAL SBG KNUST1",
-                amount: 200,
-                balance: 3200
-            }
-        ]
-
-    },
-    {
-        "balance": 2000,
-        "email": 'noelnuel44@gmail.com',
-        "transactions": [
-            {
-                "date": "2021-05-31T15:31:17.820326Z",
-                "type": "ATM CASH WITHDRAWAL SBG KNUST1",
-                "amount": -200,
-                "balance": 3000
-            }
-        ]
-
-    }
-]

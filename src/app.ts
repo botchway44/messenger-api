@@ -21,11 +21,7 @@ require('dotenv').config();
 
 
 const app = express();
-const jsonParser = bodyParser.json();
-
 let mongoClient: MongoClientConnection;
-
-
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -63,7 +59,7 @@ app.get('/api/public', function (req: any, res: any) {
     });
 });
 
-app.get('/api/v1/balance/:email', async function (req: any, res: any) {
+app.get('/api/v1/balance/:email', checkJwt, async function (req: any, res: any) {
     const email = req.params.email;
     console.log(email)
     // there is email
