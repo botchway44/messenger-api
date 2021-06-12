@@ -1,5 +1,6 @@
 import { Collection } from "mongodb";
 import { ITask } from "../dto";
+import { IAccount } from "./account.dto";
 
 const MongoClient = require('mongodb');
 const ObjectID = require('mongodb').ObjectID;
@@ -10,8 +11,8 @@ require("dotenv").config();
  * Todo : Make class generic, separate mongo specific from repository specific operations
  */
 export class MongoClientConnection {
-    public tasks_db_name = 'tasks';
-    tasks_collection: any;
+    public tasks_db_name = 'accounts';
+    accounts_collection: any;
     mongo_url = process.env.MONGODB_URL;
 
     db_name = 'LexVoiceApp';
@@ -32,7 +33,7 @@ export class MongoClientConnection {
 
                 // log connected
                 console.log('connected to database');
-                this.tasks_collection = await client.db(this.db_name).collection(this.tasks_db_name);
+                this.accounts_collection = await client.db(this.db_name).collection(this.tasks_db_name);
 
                 resolve(true)
             });
@@ -42,35 +43,25 @@ export class MongoClientConnection {
 
     }
 
-    async addTask(task: ITask) {
-        return await this.tasks_collection.insertOne(task);
+    async addTask(account: IAccount) {
+        return await this.accounts_collection.insertOne(account);
     }
 
-
-    async removeTask(task: ITask) {
-        return await this.tasks_collection.deleteOne({ id: task.id });
-    }
-
-    async updateTask(task: ITask) {
-        return await this.tasks_collection.updateOne({ id: task.id }, task);
-    }
 
     getAllTasks(email: string) {
-        return this.tasks_collection.find({ email: email }).toArray();
+        return this.accounts_collection.find({ email: email }).toArray();
     }
 
     find(email: string) {
-        return this.tasks_collection.find().toArray();
-    }
-
-    getTask(id: string, email: string) {
-        return this.tasks_collection.findOne({ id: id, email: email });
+        return this.accounts_collection.find().toArray();
     }
 
 
-    async removeAllTasks() {
-        return await this.tasks_collection.deleteMany({});
+    getAccount(email: string) {
+        return this.accounts_collection.findOne({ email: email });
     }
+
+
 
 
 

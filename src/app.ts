@@ -2,212 +2,177 @@
 import { Card, conversation, Image, List, Simple, Suggestion } from '@assistant/conversation';
 import { Mode } from '@assistant/conversation/dist/api/schema';
 import { AuthHeaderProcessor } from '@assistant/conversation/dist/auth';
+import { IAccount } from 'utils/account.dto';
 import { ITask } from './dto';
 import { ASSISTANT_LOGO_IMAGE, buildEntriesList, buildItemsList, decodeUser, handleAddTasks, MongoClientConnection } from './utils';
 import { CreateNewTask } from './utils';
 
 // const { actionssdk, SignIn } = require('actions-on-google');
-
-
+const jwt = require('express-jwt');
+const jwtAuthz = require('express-jwt-authz');
+const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require("path");
 const fs = require('fs')
+require('dotenv').config();
 
-// Create an app instance
-const app = conversation({
-    // debug: true,
-    // clientId: '6eqg1P7X6IeHO7U9nOeAU6KOG6qYDwz0'
-});
+
+
+
+const app = express();
+const jsonParser = bodyParser.json();
+
 let mongoClient: MongoClientConnection;
 
 
-// Register handlers for Actions SDK
-const expressApp = express().use(bodyParser.json());
 
-// Place scenename here
-app.handle('start_scene_initial_prompt', (conv) => {
-    console.log('Start scene: initial prompt');
-    conv.overwrite = false;
-    // conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
-    conv.add('Hello world from fulfillment handler');
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
+
+if (
+    !process.env.AUTH0_DOMAIN ||
+    !process.env.AUTH0_AUDIENCE ||
+    !process.env.AUTH0_API_SECRET
+) {
+    throw 'Make sure you have AUTH0_DOMAIN, AUTH0_AUDIENCE, and AUTH0_API_SECRET in your .env file';
+}
+
+app.use(cors());
+
+// Authentication middleware. When used, the
+// access token must exist and be verified against
+// the signing secret for the API
+const checkJwt = jwt({
+    // Dynamically provide a signing key based on the kid in the header and the singing keys provided by the JWKS endpoint.
+    secret: process.env.AUTH0_API_SECRET,
+    // Validate the audience and the issuer.
+    aud: process.env.AUTH0_AUDIENCE,
+    issuer: `${process.env.AUTH0_DOMAIN}/`,
+    algorithms: ['HS256']
 });
 
-// Place scenename here
-app.handle('user_account_linked', (conv) => {
-    console.log('Account Link Scene');
-    conv.overwrite = false;
-    console.log(conv.headers);
-    // conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
-    conv.add('Hello world from Account Linking');
 
+const checkScopes = jwtAuthz(['read:messages']);
+
+app.get('/api/public', function (req: any, res: any) {
+    res.json({
+        message: "Hello from a public endpoint! You don't need to be authenticated to see this."
+    });
 });
 
+app.get('/api/v1/balance/:email', async function (req: any, res: any) {
+    const email = req.params.email;
+    console.log(email)
+    // there is email
+    if (email) {
+        const data = await mongoClient.getAccount(email);
 
-// Place scenename here
-app.handle('check_account_details', (conv) => {
-    console.log('Checking account Link Scene');
-    conv.overwrite = false;
-    // conv.scene.next = { name: 'actions.scene.END_CONVERSATION' };
-    conv.add('Here is your account details');
-
-});
-
-// use scene handler handler name here
-app.handle('task_selected', async (conv) => {
-
-    console.log("selected task, called")
-    const authHeader = conv.headers.authorization?.toString() || "";
-
-    const user = decodeUser(authHeader);
-
-    const id = conv.session.params?.selectedTask;
-
-    console.log("id is ", id, " USer email is ", user?.email);
-    // get all tasks and create a list
-    const task: ITask = await mongoClient.getTask(id, user?.email || "");
-
-    console.log(task);
-
-    if (task) {
-        conv.add(new Card({
-            title: task.name,
-            text: task.description,
-            subtitle: task.status + " " + task.due
-        }));
-
-        conv.scene.next = { name: 'Task_Detail' };
-        conv.add(new Suggestion({ title: 'Change Status' }))
-        conv.add(new Suggestion({ title: 'Delete Task' }))
+        res.status("200").json({ balance: data.balance });
 
     } else {
-        conv.add("Task could not be found")
-        conv.add(new Suggestion({ title: 'Add new Task' }))
+        res.status("404").json({ error: "getting account failed" });
     }
 
-
 });
-// use scene handler handler name here
-app.handle('all_tasks_scene', async (conv) => {
 
-    console.log("all tasks scene, called")
-    const authHeader = conv.headers.authorization?.toString() || "";
+app.get('/api/v1/public', function (req: any, res: any) {
+    res.json({
+        message: "Hello from a public endpoint! You don't need to be authenticated to see this."
+    });
+});
 
-    const user = decodeUser(authHeader);
 
-    // get all tasks and create a list
-    const tasks: ITask[] = await mongoClient.getAllTasks((user?.email || ""));
 
-    if (tasks.length >= 2) {
+app.get('/api/v1/account/:email', checkJwt, async function (req: any, res: any) {
 
-        // Create a list of tasks
-        conv.add("Here are a list of your tasks, you can delete or edit them")
+    const email = req.params.email;
 
-        const entries = buildEntriesList(tasks);
-        // Override type based on slot 'prompt_option'
-        conv.session.typeOverrides = [
-            {
-                name: 'prompt_option',
-                mode: Mode.TypeReplace,
-                synonym: {
-                    entries: entries
-                }
-            }];
+    // there is email
+    if (email) {
+        const data: IAccount = await mongoClient.getAccount(email);
 
-        const items = buildItemsList(tasks);
-        // Define prompt content using keys
-        conv.add(new List({
-            title: 'Tasks',
-            subtitle: '',
-            items: items
-        }));
-
-    } else if (tasks.length == 1) {
-        conv.add("Here is your task")
-        conv.add(new Card({
-            title: tasks[0].name,
-            text: tasks[0].description,
-            subtitle: tasks[0].status + " " + tasks[0].due
-        }));
-
-        conv.scene.next = { name: 'Task_Detail' };
-        conv.add(new Suggestion({ title: 'Change Status' }))
-        conv.add(new Suggestion({ title: 'Delete Task' }))
+        res.status("200").json({ account: data });
 
     } else {
-        conv.scene.next = { name: 'Empty_TaskList' };
-        conv.add("You do not have any task added");
-        conv.add(new Suggestion({ title: 'Add new Task' }))
+        res.status("404").json({ error: "getting account failed" });
     }
+
 });
 
+app.get('/api/v1/transactions/:email', checkJwt, async function (req: any, res: any) {
 
-// use intent handler name here
-app.handle('AddTaskIntent', async (conv) => {
-    const authHeader = conv.headers.authorization?.toString() || "";
-    // const user = conv.user.processAuthHeader(authHeader, new AuthHeaderProcessor())
+    const email = req.params.email;
 
-    // destruct task details
-    const name = conv.session.params?.name;
-    const description = conv.session.params?.description;
-    const due = conv.session.params?.due;
+    // there is email
+    if (email) {
+        const data: IAccount = await mongoClient.getAccount(email);
 
-    // If there is no name, call the same scene and ask for the name again
-    // if (!name) {
-
-    // }
-    // conv.overwrite = true;
-    // const session = conv.session.params || {};
-    // session.name = null;
-    // conv.session.params = session;
-    const user = decodeUser(authHeader);
-
-    if (!user) {
-        conv.add(
-            new Simple('In order for me to process your task, i need to link your account to google, Should i proceed?')
-        );
-
-
-        conv.add(new Suggestion({ title: 'Yes' }))
-        conv.add(new Suggestion({ title: 'No' }))
+        res.status("200").json({ transactions: data.transactions });
 
     } else {
-        // create task with user email
-        const new_task = CreateNewTask(name, description, due, user.email)
+        res.status("404").json({ error: "task failed" });
 
-        // insert into mongo
-        await mongoClient.addTask(new_task).then(() => {
-            conv.add(
-                new Simple(`Okay ${user.family_name.toLowerCase()}, your task is created`)
-            );
-        });
+    }
 
-        // send prompt message 
+});
 
-        // conv.scene.next = { name: 'AddTasks' };
-        conv.add(new Suggestion({ title: 'All Tasks' }))
-        conv.add(new Suggestion({ title: 'Add a task' }))
+app.get('/api/v1/last_transaction/:email', checkJwt, async function (req: any, res: any) {
+
+    const email = req.params.email;
+
+    // there is email
+    if (email) {
+        const data: IAccount = await mongoClient.getAccount(email);
+
+        res.status("200").json({ lastTransaction: data.transactions[data.transactions.length - 1] });
+
+    } else {
+        res.status("404").json({ error: "task failed" });
 
     }
 
 });
 
 
-// Add a get Response for the assistant
-expressApp.get('/', (req: any, res: any) => {
-    res.status(200).json({ message: "This is the google assistant" });
+app.get('/api/v1/private-scoped', checkJwt, checkScopes, function (req: any, res: any) {
+    res.json({
+        message: 'Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.'
+    });
 });
 
 
-// Post the fulfillment handler for the Google Assistant
-expressApp.post('/fulfillment', app);
+//index route
+app.post("/api/v1/transactions", checkJwt, async (req: any, res: any) => {
+    const body = req.body;
+    console.log(body);
+    // there is body
+    if (body) {
+        const data = await mongoClient.addTask(body);
+
+        res.status("200").json({ account: data });
+
+    } else {
+        res.status("404").json({ error: "task failed" });
+
+    }
+
+});
+
+
+
+app.use(function (err: any, req: any, res: any, next: any) {
+    console.error(err.stack);
+    return res.status(err.status).json({ message: err.message });
+});
 
 
 // Starting the App
 const PORT = process.env.PORT || 3000;
 
-expressApp.listen(PORT, () => {
+app.listen(PORT, () => {
     mongoClient = new MongoClientConnection();
 
     mongoClient.connect().then(() => {
