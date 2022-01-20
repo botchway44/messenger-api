@@ -12,12 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ask-sdk-express-adapter": "^2.10.2",
-    "ask-sdk-core": "^2.6.0",
-    "ask-sdk-model": "^1.18.0",
-    "aws-sdk": "^2.326.0",
     "@assistant/conversation": "^3.7.1",
     "actions-on-google": "^2.14.0",
+    "ask-sdk-core": "^2.6.0",
+    "ask-sdk-express-adapter": "^2.10.2",
+    "ask-sdk-model": "^1.18.0",
+    "aws-sdk": "^2.326.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -26,9 +26,14 @@
     "express-jwt-authz": "^2.4.1",
     "jwks-rsa": "^2.0.3",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.1",
     "mongodb": "^3.1.12",
-    "uuid": "^8.3.0",
-    "moment": "^2.29.1"
+    "reflect-metadata": "^0.1.13",
+    "inversify": "5.0.1",
+    "inversify-binding-decorators": "4.0.0",
+    "inversify-express-utils": "6.3.2",
+    "inversify-logger-middleware": "3.1.0",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.18",

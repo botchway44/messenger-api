@@ -3,17 +3,23 @@
         "module": "commonjs",
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
+        "strictPropertyInitialization": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "target": "es2017",
         "strict": true,
         "sourceMap": false,
         "outDir": "dist",
         "baseUrl": "src",
         "allowJs": true,
         "types": [
-            "node"
+            "node",
+            "reflect-metadata"
         ],
+        "target": "es5",
+        "lib": [
+            "es6"
+        ],
+        "moduleResolution": "node"
     },
     "exclude": [
         "node_modules",

@@ -233,6 +233,7 @@ const skill = skillBuilder.create();
 
 const adapter = new ExpressAdapter(skill, false, false);
 const AlexaHandler = adapter.getRequestHandlers();
+console.log(AlexaHandler);
 
 export {
     AlexaHandler
