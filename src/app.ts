@@ -5,9 +5,9 @@ import { AuthHeaderProcessor } from '@assistant/conversation/dist/auth';
 import { IAccount } from 'utils/account.dto';
 import { ITask } from './dto';
 import { ASSISTANT_LOGO_IMAGE, buildEntriesList, buildItemsList, decodeUser, handleAddTasks, MongoClientConnection } from './utils';
-import { CreateNewTask } from './utils';
-
 // const { actionssdk, SignIn } = require('actions-on-google');
+import { AlexaHandler } from "./channels/alexa";
+import { GoogleAssistantHandler } from './channels/google_assistant';
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const cors = require('cors');
@@ -16,8 +16,6 @@ const bodyParser = require('body-parser');
 const path = require("path");
 const fs = require('fs')
 require('dotenv').config();
-
-
 
 
 const app = express();
@@ -132,6 +130,9 @@ app.get('/api/v1/last_transaction/:email', checkJwt, async function (req: any, r
 
 });
 
+// Add handler for alexa
+app.post('/api/v1/alexa', AlexaHandler);
+app.post('/api/v1/googleassistant', GoogleAssistantHandler);
 
 app.get('/api/v1/private-scoped', checkJwt, checkScopes, function (req: any, res: any) {
     res.json({

@@ -12,6 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ask-sdk-express-adapter": "^2.10.2",
+    "ask-sdk-core": "^2.6.0",
+    "ask-sdk-model": "^1.18.0",
+    "aws-sdk": "^2.326.0",
     "@assistant/conversation": "^3.7.1",
     "actions-on-google": "^2.14.0",
     "body-parser": "^1.19.0",
@@ -23,7 +27,8 @@
     "jwks-rsa": "^2.0.3",
     "jwt-decode": "^3.1.2",
     "mongodb": "^3.1.12",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "moment": "^2.29.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.18",
