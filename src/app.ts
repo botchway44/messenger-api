@@ -1,30 +1,27 @@
 // Import the appropriate service and chosen wrappers
-import { Card, conversation, Image, List, Simple, Suggestion } from '@assistant/conversation';
-import { Mode } from '@assistant/conversation/dist/api/schema';
-import { AuthHeaderProcessor } from '@assistant/conversation/dist/auth';
+require("ask-sdk-model")
 import { IAccount } from 'utils/account.dto';
-import { ITask } from './dto';
-import { ASSISTANT_LOGO_IMAGE, buildEntriesList, buildItemsList, decodeUser, handleAddTasks, MongoClientConnection } from './utils';
-// const { actionssdk, SignIn } = require('actions-on-google');
-import { AlexaHandler } from "./channels/alexa";
+import { MongoClientConnection } from './utils';
+import { AlexaHandler, AlexaAdapter } from "./channels/alexa";
 import { GoogleAssistantHandler } from './channels/google_assistant';
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require("path");
-const fs = require('fs')
 require('dotenv').config();
 
 
 const app = express();
+
 let mongoClient: MongoClientConnection;
 
+// app.use(express.json());
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(bodyParser.raw());
+// app.use(express.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.raw());
 
 if (
     !process.env.AUTH0_DOMAIN ||
@@ -51,119 +48,39 @@ const checkJwt = jwt({
 
 const checkScopes = jwtAuthz(['read:messages']);
 
-app.get('/api/public', function (req: any, res: any) {
-    res.json({
-        message: "Hello from a public endpoint! You don't need to be authenticated to see this."
-    });
+
+app.use(function (err: any, req: any, res: any, next: any) {
+    console.error(err.stack);
+    return res.status(err.status).json({ message: err.message });
 });
 
-app.get('/api/v1/balance/:email', checkJwt, async function (req: any, res: any) {
-    const email = req.params.email;
-    console.log(email)
-    // there is email
-    if (email) {
-        const data = await mongoClient.getAccount(email);
-
-        res.status("200").json({ balance: data.balance });
-
-    } else {
-        res.status("404").json({ error: "getting account failed" });
-    }
-
-});
-
-app.get('/api/v1/public', function (req: any, res: any) {
-    res.json({
-        message: "Hello from a public endpoint! You don't need to be authenticated to see this."
-    });
-});
-
-
-
-app.get('/api/v1/account/:email', checkJwt, async function (req: any, res: any) {
-
-    const email = req.params.email;
-
-    // there is email
-    if (email) {
-        const data: IAccount = await mongoClient.getAccount(email);
-
-        res.status("200").json({ account: data });
-
-    } else {
-        res.status("404").json({ error: "getting account failed" });
-    }
-
-});
-
-app.get('/api/v1/transactions/:email', checkJwt, async function (req: any, res: any) {
-
-    const email = req.params.email;
-
-    // there is email
-    if (email) {
-        const data: IAccount = await mongoClient.getAccount(email);
-
-        res.status("200").json({ transactions: data.transactions });
-
-    } else {
-        res.status("404").json({ error: "task failed" });
-
-    }
-
-});
-
-app.get('/api/v1/last_transaction/:email', checkJwt, async function (req: any, res: any) {
-
-    const email = req.params.email;
-
-    // there is email
-    if (email) {
-        const data: IAccount = await mongoClient.getAccount(email);
-
-        res.status("200").json({ lastTransaction: data.transactions[data.transactions.length - 1] });
-
-    } else {
-        res.status("404").json({ error: "task failed" });
-
-    }
-
-});
 
 // Add handler for alexa
-app.post('/api/v1/alexa', AlexaHandler);
-app.post('/api/v1/googleassistant', GoogleAssistantHandler);
+app.post('/api/v1/alexa', AlexaAdapter.getRequestHandlers());
+app.post('/api/v1/googleassistant', express.json(), GoogleAssistantHandler);
 
-app.get('/api/v1/private-scoped', checkJwt, checkScopes, function (req: any, res: any) {
+app.get('/api/public', express.json(), function (req: any, res: any) {
+    res.json({
+        message: "Hello from a public endpoint! You don't need to be authenticated to see this."
+    });
+});
+
+
+app.post('/api/v1/public', express.json(), function (req: any, res: any) {
+    console.log(req.body);
+    res.json({
+        message: "Hello from a public endpoint! You don't need to be authenticated to see this."
+    });
+});
+
+
+app.get('/api/v1/private-scoped', express.json(), checkJwt, checkScopes, function (req: any, res: any) {
     res.json({
         message: 'Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.'
     });
 });
 
 
-//index route
-app.post("/api/v1/transactions", checkJwt, async (req: any, res: any) => {
-    const body = req.body;
-    console.log(body);
-    // there is body
-    if (body) {
-        const data = await mongoClient.addTask(body);
-
-        res.status("200").json({ account: data });
-
-    } else {
-        res.status("404").json({ error: "task failed" });
-
-    }
-
-});
-
-
-
-app.use(function (err: any, req: any, res: any, next: any) {
-    console.error(err.stack);
-    return res.status(err.status).json({ message: err.message });
-});
 
 
 // Starting the App

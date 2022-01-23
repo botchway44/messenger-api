@@ -1,11 +1,8 @@
 import { AccountService, TokenService } from "../service";
 
 require("ask-sdk-model")
-const express = require('express');
 const { ExpressAdapter } = require('ask-sdk-express-adapter');
 const Alexa = require('ask-sdk-core');
-const app = express();
-const skillBuilder = Alexa.SkillBuilders.custom();
 
 // CLIENTS SETUP
 let tokenService: TokenService;
@@ -218,6 +215,7 @@ const ErrorHandler = {
 
 /******************************** */
 
+const skillBuilder = Alexa.SkillBuilders.custom();
 
 skillBuilder.addRequestHandlers(
     LaunchRequestHandler,
@@ -231,11 +229,12 @@ skillBuilder.addRequestHandlers(
 
 const skill = skillBuilder.create();
 
-const adapter = new ExpressAdapter(skill, false, false);
-const AlexaHandler = adapter.getRequestHandlers();
+const AlexaAdapter = new ExpressAdapter(skill, false, false);
+const AlexaHandler = AlexaAdapter.getRequestHandlers();
 
 export {
-    AlexaHandler
+    AlexaHandler,
+    AlexaAdapter
 }
 
 // Post request
